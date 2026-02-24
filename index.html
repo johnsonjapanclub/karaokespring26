@@ -90,7 +90,7 @@
   }
   @keyframes curtainExit {
     0% { opacity: 1; transform: scale(1); }
-    100% { opacity: 0; transform: scale(1.08); visibility: hidden; }
+    % { opacity: 0; transform: scale(1.08); visibility: hidden; }
   }
 
   /* ===== FLOATING NOTES ===== */
@@ -126,7 +126,7 @@
     10% { opacity: 0.5; }
     50% { opacity: 0.3; }
     90% { opacity: 0; }
-    100% { bottom: 105%; opacity: 0; transform: translateX(30px) rotate(20deg); }
+    % { bottom: 105%; opacity: 0; transform: translateX(30px) rotate(20deg); }
   }
 
   /* ===== SCROLL REVEAL SYSTEM ===== */
@@ -156,7 +156,7 @@
   /* ===== HERO ===== */
   .hero {
     position: relative;
-    min-height: 100vh;
+    min-height: vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -199,7 +199,7 @@
   }
 
   @keyframes mascotFloat {
-    0%, 100% { transform: translateY(0); }
+    0%, % { transform: translateY(0); }
     50% { transform: translateY(-14px); }
   }
 
@@ -710,7 +710,7 @@
         <ellipse cx="150" cy="112" rx="5.5" ry="4.5" fill="#3D2B1A"/><ellipse cx="148" cy="110.5" rx="2" ry="1.5" fill="#6B4D35" opacity="0.5"/>
         <path d="M 142 119 Q 146 124 150 119 Q 154 124 158 119" stroke="#3D2B1A" stroke-width="2" fill="none" stroke-linecap="round"/>
         <g opacity="0.8"><path d="M 245 65 L 248 73 L 256 76 L 248 79 L 245 87 L 242 79 L 234 76 L 242 73 Z" fill="#F5C542"/><path d="M 55 100 L 57 105 L 62 107 L 57 109 L 55 114 L 53 109 L 48 107 L 53 105 Z" fill="#F9CDD3"/><path d="M 75 50 L 76.5 54 L 80.5 55.5 L 76.5 57 L 75 61 L 73.5 57 L 69.5 55.5 L 73.5 54 Z" fill="#FFE066"/><text x="250" y="120" font-size="16" fill="#B088F9" opacity="0.7">♪</text><text x="52" y="145" font-size="14" fill="#FF6B9D" opacity="0.6">♫</text></g>
-        <defs><path id="archPath" d="M 28 100 A 130 130 0 0 1 272 100" fill="none"/></defs>
+        <defs><path id="archPath" d="M 28 120 A 130 130 0 0 1 272 120" fill="none"/></defs>
         <text font-family="'Dancing Script','Brush Script MT',cursive" font-weight="700" font-size="25" fill="#3D2B1A" letter-spacing="0"><textPath href="#archPath" startOffset="50%" text-anchor="middle">Johnson Japan Club</textPath></text>
       </svg>
     </div>
