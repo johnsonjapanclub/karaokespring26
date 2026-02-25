@@ -502,6 +502,8 @@
     padding: 0.4rem 1.2rem;
     border-radius: 50px;
     margin-bottom: 1rem;
+    animation: tripleWiggle 4s ease-in-out infinite;
+    transform-origin: center; /* Ensures it wiggles from the middle */
   }
 
   .hero-title {
@@ -645,6 +647,25 @@
   @keyframes bounceDown {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(10px); }
+  }
+
+  /* ===== EASTER EGG HINT 3 — "Event Tag" triple-wiggle ===== */
+  @keyframes tripleWiggle {
+    0%, 75% { transform: rotate(0deg) scale(1); }
+  
+  /* Wiggle 1 */
+    80% { transform: rotate(-3deg) scale(1.05); }
+    83% { transform: rotate(3deg) scale(1.05); }
+  
+  /* Wiggle 2 */
+    86% { transform: rotate(-3deg) scale(1.05); }
+    89% { transform: rotate(3deg) scale(1.05); }
+  
+  /* Wiggle 3 */
+    92% { transform: rotate(-3deg) scale(1.05); }
+    95% { transform: rotate(3deg) scale(1.05); }
+  
+    100% { transform: rotate(0deg) scale(1); }
   }
 
   /* ===== SHARED SECTION STYLES ===== */
