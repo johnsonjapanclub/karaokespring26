@@ -527,19 +527,16 @@
   /* ===== EASTER EGG HINT 1 — "Night" triple-pulse (light mode only) ===== */
   @keyframes triplePulse {
     0%   { transform: scale(1);    text-shadow: 0 0 0 transparent; }
-    6%   { transform: scale(1.20); text-shadow: 0 0 10px rgba(176,136,249,.3); }
-    12%  { transform: scale(1);    text-shadow: 0 0 0 transparent; }
-    20%  { transform: scale(1.20); text-shadow: 0 0 10px rgba(176,136,249,.3); }
-    26%  { transform: scale(1);    text-shadow: 0 0 0 transparent; }
-    34%  { transform: scale(1.20); text-shadow: 0 0 10px rgba(176,136,249,.3); }
-    42%  { transform: scale(1);    text-shadow: 0 0 0 transparent; }
-    50%  { transform: scale(1);    text-shadow: 0 0 0 transparent; }
+    8%   { transform: scale(1.15); text-shadow: 0 0 15px rgba(176,136,249, 0.5); } /* LUB: Big scale, wide glow */
+    16%  { transform: scale(1);    text-shadow: 0 0 0 transparent; }
+    24%  { transform: scale(1.08); text-shadow: 0 0 8px rgba(176,136,249, 0.25); } /* dub: Smaller scale, faint glow */
+    32%  { transform: scale(1);    text-shadow: 0 0 0 transparent; }
     100% { transform: scale(1);    text-shadow: 0 0 0 transparent; }
   }
 
   body:not(.dark-mode) .hero-title .night {
     display: inline-block;
-    animation: triplePulse 3s ease-in-out infinite;
+    animation: triplePulse 2s ease-in-out infinite;
   }
 
   /* ===== EASTER EGG HINT 2 — Bear "pacing" hover hint ===== */
@@ -1332,7 +1329,7 @@
       nightClicks++;
       clearTimeout(nightClickTimer);
       nightClickTimer = setTimeout(() => { nightClicks = 0; }, 500);
-      if (nightClicks >= 1) {
+      if (nightClicks >= 2) {
         document.body.classList.toggle('dark-mode');
         nightClicks = 0;
         const isDark = document.body.classList.contains('dark-mode');
