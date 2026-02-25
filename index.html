@@ -502,8 +502,6 @@
     padding: 0.4rem 1.2rem;
     border-radius: 50px;
     margin-bottom: 1rem;
-    animation: tripleWiggle 4s ease-in-out infinite;
-    transform-origin: center; /* Ensures it wiggles from the middle */
   }
 
   .hero-title {
@@ -647,25 +645,6 @@
   @keyframes bounceDown {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(10px); }
-  }
-
-  /* ===== EASTER EGG HINT 3 — "Event Tag" triple-wiggle ===== */
-  @keyframes tripleWiggle {
-    0%, 75% { transform: rotate(0deg) scale(1); }
-  
-  /* Wiggle 1 */
-    80% { transform: rotate(-3deg) scale(1.05); }
-    83% { transform: rotate(3deg) scale(1.05); }
-  
-  /* Wiggle 2 */
-    86% { transform: rotate(-3deg) scale(1.05); }
-    89% { transform: rotate(3deg) scale(1.05); }
-  
-  /* Wiggle 3 */
-    92% { transform: rotate(-3deg) scale(1.05); }
-    95% { transform: rotate(3deg) scale(1.05); }
-  
-    100% { transform: rotate(0deg) scale(1); }
   }
 
   /* ===== SHARED SECTION STYLES ===== */
@@ -1039,10 +1018,7 @@
       <div class="bear-hint">Pacing hypes bears up</div>
     </div>
 
-    <div class="hero-el">
-      <span class="event-tag">Johnson Japan Club Presents</span>
-    </div>
-    
+    <span class="event-tag hero-el">Johnson Japan Club Presents</span>
     <h1 class="hero-title hero-el"><span class="karaoke">Karaoke</span> <span class="night">Night</span></h1>
     <p class="hero-subtitle hero-el">Sing your heart out. No judgment, all vibes. 🎤</p>
     <p class="hero-japanese hero-el">カラオケナイト — 歌って楽しもう！</p>
