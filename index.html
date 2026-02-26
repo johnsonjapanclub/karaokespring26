@@ -957,6 +957,23 @@
       grid-template-columns: 1fr;
     }
   }
+  .shake-enable {
+  position: fixed;
+  top: 1.5rem;
+  right: 1.5rem;
+  z-index: 999;
+  background: linear-gradient(135deg, var(--neon-pink), var(--karaoke-purple));
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 0.6rem 1.2rem;
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(255,107,157,0.4);
+  display: none;
+}
 </style>
 </head>
 <body>
@@ -1127,7 +1144,6 @@
   <p>Cornell SC Johnson Graduate School of Management</p>
   <p style="margin-top: 0.5rem;">Questions? <a href="mailto:johnsonjapanclub@cornell.edu">johnsonjapanclub@cornell.edu</a></p>
 </footer>
-<button class="shake-enable" id="shakeBtn">📱 Enable Shake</button>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   // ===== INTRO → HERO REVEAL =====
@@ -1397,6 +1413,7 @@
     });
   }
 </script>
+<button class="shake-enable" id="shakeBtn">📱 Enable Shake</button>
 
 <script>
 // ===== 📱 SHAKE TO SING — Mobile Easter Egg =====
@@ -1461,6 +1478,7 @@
     startListening();
   }
 })();
+  
 </script>
 </body>
 </html>
