@@ -1396,5 +1396,68 @@
     });
   }
 </script>
+  // ===== 📱 SHAKE TO SING — Mobile Easter Egg =====
+(function() {
+  'use strict';
+
+  const SHAKE_THRESHOLD = 20;
+  const SHAKE_COOLDOWN = 300;
+  const SING_DURATION = 600;
+
+  let lastShake = 0;
+  let shakeTimeout = null;
+  let permissionGranted = false;
+
+  function onShake() {
+    const now = Date.now();
+    if (now - lastShake < SHAKE_COOLDOWN) return;
+    lastShake = now;
+
+    if (typeof startSinging === 'function') startSinging();
+    if (typeof spawnBearNote === 'function') {
+      spawnBearNote();
+      setTimeout(spawnBearNote, 60);
+      setTimeout(spawnBearNote, 140);
+    }
+
+    clearTimeout(shakeTimeout);
+    shakeTimeout = setTimeout(function() {
+      if (typeof stopSinging === 'function') stopSinging();
+    }, SING_DURATION);
+  }
+
+  function handleMotion(e) {
+    var acc = e.accelerationIncludingGravity || e.acceleration;
+    if (!acc) return;
+    var mag = Math.sqrt(
+      (acc.x || 0) * (acc.x || 0) +
+      (acc.y || 0) * (acc.y || 0) +
+      (acc.z || 0) * (acc.z || 0)
+    );
+    // Subtract gravity (~9.8) since we're using includingGravity
+    if (mag > SHAKE_THRESHOLD) onShake();
+  }
+
+  function startListening() {
+    window.addEventListener('devicemotion', handleMotion, { passive: true });
+    permissionGranted = true;
+  }
+
+  // iOS 13+ requires permission request on user gesture
+  if (typeof DeviceMotionEvent !== 'undefined' &&
+      typeof DeviceMotionEvent.requestPermission === 'function') {
+    document.addEventListener('touchstart', function iosPermission() {
+      DeviceMotionEvent.requestPermission()
+        .then(function(state) {
+          if (state === 'granted') startListening();
+        })
+        .catch(function() {});
+      document.removeEventListener('touchstart', iosPermission);
+    }, { once: true });
+  } else if (typeof DeviceMotionEvent !== 'undefined') {
+    // Android / older iOS — just start
+    startListening();
+  }
+})();
 </body>
 </html>
