@@ -957,7 +957,7 @@
       grid-template-columns: 1fr;
     }
   }
-  .shake-enable {
+.shake-enable {
   position: fixed;
   top: 1.5rem;
   right: 1.5rem;
@@ -966,13 +966,36 @@
   color: white;
   border: none;
   border-radius: 50px;
-  padding: 0.4rem 1.0rem;
+  padding: 0.4rem 1rem;
   font-family: 'Fredoka', sans-serif;
   font-weight: 600;
   font-size: 0.85rem;
   cursor: pointer;
   box-shadow: 0 4px 15px rgba(255,107,157,0.4);
   display: none;
+  overflow: hidden;
+}
+
+.shake-enable::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,0.4),
+    transparent
+  );
+  animation: shimmer 2.5s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% { left: -100%; }
+  40% { left: 150%; }
+  100% { left: 150%; }
 }
 </style>
 </head>
