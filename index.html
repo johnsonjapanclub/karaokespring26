@@ -1396,31 +1396,29 @@
     });
   }
 </script>
+<button class="shake-enable" id="shakeBtn">📱 Enable Shake</button>
+
 <script>
-  // ===== 📱 SHAKE TO SING — Mobile Easter Egg =====
+// ===== 📱 SHAKE TO SING — Mobile Easter Egg =====
 (function() {
   'use strict';
-
-  const SHAKE_THRESHOLD = 20;
-  const SHAKE_COOLDOWN = 300;
-  const SING_DURATION = 600;
-
-  let lastShake = 0;
-  let shakeTimeout = null;
-  let permissionGranted = false;
+  var SHAKE_THRESHOLD = 18;
+  var SHAKE_COOLDOWN = 300;
+  var SING_DURATION = 600;
+  var lastShake = 0;
+  var shakeTimeout = null;
+  var btn = document.getElementById('shakeBtn');
 
   function onShake() {
-    const now = Date.now();
+    var now = Date.now();
     if (now - lastShake < SHAKE_COOLDOWN) return;
     lastShake = now;
-
     if (typeof startSinging === 'function') startSinging();
     if (typeof spawnBearNote === 'function') {
       spawnBearNote();
       setTimeout(spawnBearNote, 60);
       setTimeout(spawnBearNote, 140);
     }
-
     clearTimeout(shakeTimeout);
     shakeTimeout = setTimeout(function() {
       if (typeof stopSinging === 'function') stopSinging();
@@ -1435,28 +1433,31 @@
       (acc.y || 0) * (acc.y || 0) +
       (acc.z || 0) * (acc.z || 0)
     );
-    // Subtract gravity (~9.8) since we're using includingGravity
     if (mag > SHAKE_THRESHOLD) onShake();
   }
 
   function startListening() {
     window.addEventListener('devicemotion', handleMotion, { passive: true });
-    permissionGranted = true;
+    btn.style.display = 'none';
   }
 
-  // iOS 13+ requires permission request on user gesture
+  // Show button only on mobile
+  var isMobile = /iPhone|iPad|Android/i.test(navigator.userAgent);
+  if (!isMobile) return;
+
   if (typeof DeviceMotionEvent !== 'undefined' &&
       typeof DeviceMotionEvent.requestPermission === 'function') {
-    document.addEventListener('touchstart', function iosPermission() {
+    // iOS — need button tap for permission
+    btn.style.display = 'block';
+    btn.addEventListener('click', function() {
       DeviceMotionEvent.requestPermission()
         .then(function(state) {
           if (state === 'granted') startListening();
         })
         .catch(function() {});
-      document.removeEventListener('touchstart', iosPermission);
-    }, { once: true });
+    });
   } else if (typeof DeviceMotionEvent !== 'undefined') {
-    // Android / older iOS — just start
+    // Android — just works
     startListening();
   }
 })();
