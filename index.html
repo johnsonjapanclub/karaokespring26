@@ -538,19 +538,27 @@
   display: inline-block;
   animation: triplePulse 2s ease-in-out infinite;
   -webkit-tap-highlight-color: transparent;
-  border-radius: 12px;
-  padding: 0.1rem 0.4rem;
+  position: relative;
+  overflow: visible;
 }
 
-.hero-title .night:active {
-  background: rgba(176,136,249,0.35);
-  border-radius: 12px;
-  transition: background 0s;
+.night-ripple {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(176,136,249,0.45) 0%, transparent 70%);
+  transform: translate(-50%, -50%) scale(0);
+  pointer-events: none;
+  animation: rippleOut 0.8s ease-out forwards;
 }
 
-.hero-title .night:not(:active) {
-  transition: background 0.6s ease;
+@keyframes rippleOut {
+  0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(2.5); opacity: 0; }
 }
+  
+  
 
   /* ===== EASTER EGG HINT 2 — Bear "shaking" hover hint ===== */
   .bear-hint {
@@ -1382,6 +1390,18 @@
     nightSpan.style.cursor = 'pointer';
     nightSpan.addEventListener('click', (e) => {
       e.stopPropagation();
+
+      // Ripple — light mode only
+      if (!document.body.classList.contains('dark-mode')) {
+        const rect = nightSpan.getBoundingClientRect();
+        const r = document.createElement('span');
+        r.className = 'night-ripple';
+        r.style.left = (e.clientX - rect.left) + 'px';
+        r.style.top = (e.clientY - rect.top) + 'px';
+        nightSpan.appendChild(r);
+        setTimeout(() => r.remove(), 850);
+      }
+
       nightClicks++;
       clearTimeout(nightClickTimer);
       nightClickTimer = setTimeout(() => { nightClicks = 0; }, 700);
