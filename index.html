@@ -1486,21 +1486,41 @@
   var shakeTimeout = null;
   var btn = document.getElementById('shakeBtn');
 
+
   function onShake() {
-    var now = Date.now();
-    if (now - lastShake < SHAKE_COOLDOWN) return;
-    lastShake = now;
-    if (typeof startSinging === 'function') startSinging();
-    if (typeof spawnBearNote === 'function') {
-      spawnBearNote();
-      setTimeout(spawnBearNote, 60);
-      setTimeout(spawnBearNote, 140);
-    }
-    clearTimeout(shakeTimeout);
-    shakeTimeout = setTimeout(function() {
-      if (typeof stopSinging === 'function') stopSinging();
-    }, SING_DURATION);
+  var now = Date.now();
+  if (now - lastShake < SHAKE_COOLDOWN) return;
+  lastShake = now;
+
+  // 🎵 Short jingle
+  try {
+    var ctx = new (window.AudioContext || window.webkitAudioContext)();
+    var notes = [523, 659, 784, 1047];
+    notes.forEach(function(freq, i) {
+      var osc = ctx.createOscillator();
+      var gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.value = freq;
+      gain.gain.setValueAtTime(0.15, ctx.currentTime + i * 0.12);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.12 + 0.3);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(ctx.currentTime + i * 0.12);
+      osc.stop(ctx.currentTime + i * 0.12 + 0.3);
+    });
+  } catch(e) {}
+
+  if (typeof startSinging === 'function') startSinging();
+  if (typeof spawnBearNote === 'function') {
+    spawnBearNote();
+    setTimeout(spawnBearNote, 60);
+    setTimeout(spawnBearNote, 140);
   }
+  clearTimeout(shakeTimeout);
+  shakeTimeout = setTimeout(function() {
+    if (typeof stopSinging === 'function') stopSinging();
+  }, SING_DURATION);
+}
 
   function handleMotion(e) {
     var acc = e.accelerationIncludingGravity || e.acceleration;
