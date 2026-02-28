@@ -1481,7 +1481,7 @@
   'use strict';
   var SHAKE_THRESHOLD = 18;
   var SHAKE_COOLDOWN = 300;
-  var SING_DURATION = 600;
+  var SING_DURATION = 5500;
   var lastShake = 0;
   var shakeTimeout = null;
   var btn = document.getElementById('shakeBtn');
@@ -1492,34 +1492,58 @@
   if (now - lastShake < SHAKE_COOLDOWN) return;
   lastShake = now;
 
-  // 🎵 Short jingle
+  // 🎵 Play "Stay With Me" melody (F minor / Ab Major)
   try {
     var ctx = new (window.AudioContext || window.webkitAudioContext)();
-    var notes = [523, 659, 784, 1047];
-    notes.forEach(function(freq, i) {
+    // [Frequency (Hz), Start Time (seconds), Duration (seconds)]
+    var melody = [
+      [698.46, 0.0, 0.6],  // Stay
+      [622.25, 0.8, 0.3],  // with
+      [554.37, 1.2, 0.8],  // me
+      [554.37, 2.4, 0.2],  // ma-
+      [622.25, 2.7, 0.2],  // yo-
+      [698.46, 3.0, 0.2],  // na-
+      [830.61, 3.3, 0.2],  // ka
+      [698.46, 3.6, 0.2],  // no
+      [622.25, 4.0, 0.3],  // do-
+      [554.37, 4.4, 0.2],  // a
+      [523.25, 4.7, 0.8]   // wo
+    ];
+    melody.forEach(function(note) {
+      var freq = note[0];
+      var startTime = ctx.currentTime + note[1];
+      var duration = note[2];
       var osc = ctx.createOscillator();
       var gain = ctx.createGain();
-      osc.type = 'sine';
+      osc.type = 'triangle'; // 80s synth feel
       osc.frequency.value = freq;
-      gain.gain.setValueAtTime(0.15, ctx.currentTime + i * 0.12);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.12 + 0.3);
+      // Smooth volume envelope: quick attack, natural decay
+      gain.gain.setValueAtTime(0, startTime);
+      gain.gain.linearRampToValueAtTime(0.2, startTime + 0.05);
+      gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
       osc.connect(gain);
       gain.connect(ctx.destination);
-      osc.start(ctx.currentTime + i * 0.12);
-      osc.stop(ctx.currentTime + i * 0.12 + 0.3);
+      osc.start(startTime);
+      osc.stop(startTime + duration);
     });
   } catch(e) {}
 
+  // 🐻 Start bear singing animation
   if (typeof startSinging === 'function') startSinging();
+
+  // 🎶 Spawn music notes throughout the melody
   if (typeof spawnBearNote === 'function') {
-    spawnBearNote();
-    setTimeout(spawnBearNote, 60);
-    setTimeout(spawnBearNote, 140);
+    var noteInterval = setInterval(spawnBearNote, 400);
+    setTimeout(function() {
+      clearInterval(noteInterval);
+    }, 5500);
   }
+
+  // ⏱ Stop singing after melody ends
   clearTimeout(shakeTimeout);
   shakeTimeout = setTimeout(function() {
     if (typeof stopSinging === 'function') stopSinging();
-  }, SING_DURATION);
+  }, 5500);
 }
 
   function handleMotion(e) {
